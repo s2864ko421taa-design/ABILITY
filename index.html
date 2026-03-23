@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CORE 48診断</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>CORE 48診断</h1>
+  <p>直感でAかBを選べ。</p>
+
+  <form id="quizForm"></form>
+
+  <div id="result" class="result">
+    <h2>結果</h2>
+    <div id="typeBox"></div>
+    <p id="summary"></p>
+  </div>
+</div>
+
+<div class="controls">
+  <button onclick="resetQuiz()">リセット</button>
+  <button onclick="calculateResult()">結果を見る</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

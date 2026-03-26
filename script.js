@@ -1,225 +1,133 @@
-const questions = [
-  { text: "初対面では、まず相手の雰囲気や安全さを見てから動く", key: "S" },
-  { text: "人と仲良くなるまでに、ある程度時間が必要な方だ", key: "S" },
-  { text: "最初から素を出すのは少し抵抗がある", key: "S" },
-  { text: "会話では、相手の出方を見てから自分を出すことが多い", key: "S" },
-  { text: "人との距離を縮める前に「この人は大丈夫か」を無意識に見ている", key: "S" },
+const typeMap = {
+  SRLDN: {
+    title: "静かな本音型",
+    desc: "慎重に人を見極めながらも、信頼した相手にはかなり本音で深く関わるタイプ。静かに見えて、内側はかなり熱い。"
+  },
+  SRLDB: {
+    title: "孤高の信頼型",
+    desc: "警戒心と自分の境界線をしっかり持ちながら、信頼した相手には誠実に向き合うタイプ。狭く深い関係を好む。"
+  },
+  SRLCN: {
+    title: "硬派な相棒型",
+    desc: "慎重さと落ち着きを持ちながら、必要な場面ではしっかり前に出られるタイプ。頼られやすく、信頼関係を大事にする。"
+  },
+  SRLCB: {
+    title: "境界の司令塔型",
+    desc: "人との距離感や場の空気を冷静に見ながら、自分のペースで主導権を取れるタイプ。近寄りがたく見えるが、中身はかなり整っている。"
+  },
+  SRFDN: {
+    title: "観察共鳴型",
+    desc: "慎重に人を見ながらも、相手の空気や感情にはかなり敏感で、深く共鳴しやすいタイプ。静かだが、心の動きはとても繊細。"
+  },
+  SRFDB: {
+    title: "静観リアル型",
+    desc: "必要以上に前へ出ず、自然な距離感を保ちながら本音で関わるタイプ。無理に広げず、心地よい関係を静かに育てる。"
+  },
+  SRFCN: {
+    title: "やわらか核心型",
+    desc: "柔らかく受け止めるように見えて、内側にはしっかりした本音と芯を持つタイプ。優しさと深さが共存している。"
+  },
+  SRFCB: {
+    title: "静かな壁打ち型",
+    desc: "人の話を受け止めるのが上手く、必要以上には踏み込まないが、話すと核心を返せるタイプ。相談相手としてかなり強い。"
+  },
 
-  { text: "初対面でも、比較的すぐ自然に話せる", key: "G" },
-  { text: "新しい人間関係に入ることに、そこまで強い抵抗はない", key: "G" },
-  { text: "深く考える前に、まず話してみることが多い", key: "G" },
-  { text: "知らない人がいても、空気次第で割とすぐ馴染める", key: "G" },
-  { text: "人との関わりは、まず入ってみてから考えることが多い", key: "G" },
+  SMLDN: {
+    title: "防衛リーダー型",
+    desc: "最初は慎重だが、慣れた場ではしっかり流れを作れるタイプ。空気を読みながらも、必要な時には自分が動く。"
+  },
+  SMLDB: {
+    title: "鉄壁進行型",
+    desc: "場を壊さず、距離感を守りながら主導できるタイプ。感情を表に出しすぎず、対人面でかなり安定感がある。"
+  },
+  SMLCN: {
+    title: "適応参謀型",
+    desc: "相手や場に合わせながらも、裏ではかなり考えて動いているタイプ。柔らかく見えて、実はかなり戦略的。"
+  },
+  SMLCB: {
+    title: "仮面の管理者型",
+    desc: "その場に最適な自分を保ちながら、冷静に全体を整えるタイプ。崩れにくいが、本音を溜め込みやすい一面もある。"
+  },
+  SMFDN: {
+    title: "擬態共鳴型",
+    desc: "相手に合わせるのが上手く、人と深くつながる力も強いタイプ。優しいが、その分だけ内側で疲れを抱えやすい。"
+  },
+  SMFDB: {
+    title: "静かな適応型",
+    desc: "空気に自然に馴染みながら、必要な距離感も守れるタイプ。穏やかに見えるが、本心はかなり奥にある。"
+  },
+  SMFCN: {
+    title: "ぬるく深い型",
+    desc: "柔らかく人と関わりながら、信頼した相手とはしっかり深くつながるタイプ。圧はないが、情はかなり深い。"
+  },
+  SMFCB: {
+    title: "無害な観測者型",
+    desc: "人とぶつからず、自然に馴染みながら、自分の領域もしっかり守るタイプ。対人ストレスを回避する能力が高い。"
+  },
 
-  { text: "感情や好き嫌いは、わりと表に出やすい方だ", key: "R" },
-  { text: "無理にキャラを作るより、自然体でいたい", key: "R" },
-  { text: "嫌なことがあると、多少なりとも反応に出やすい", key: "R" },
-  { text: "思ったことをそのまま言いたくなることがある", key: "R" },
-  { text: "人に合わせすぎると、自分がズレる感覚がある", key: "R" },
+  GRLDN: {
+    title: "直感突破型",
+    desc: "人との距離を詰めるのが早く、本音と勢いで前に進めるタイプ。熱量が高く、深く関わるほど存在感が増す。"
+  },
+  GRLDB: {
+    title: "熱血距離感型",
+    desc: "明るく前に出ながらも、誰にでも深くは踏み込まないタイプ。熱さと線引きのバランスが絶妙。"
+  },
+  GRLCN: {
+    title: "陽キャ参謀型",
+    desc: "自然な社交性と流れを作る力を持ちつつ、深い関係も築ける万能型。明るいだけで終わらない強さがある。"
+  },
+  GRLCB: {
+    title: "切替カリスマ型",
+    desc: "場に入る速さ、主導力、切り替えの早さを兼ね備えたタイプ。かなり強く見られやすいが、意外と繊細な面もある。"
+  },
+  GRFDN: {
+    title: "感情直結型",
+    desc: "感情や好き嫌いが自然に伝わりやすく、人との距離も縮まりやすいタイプ。人間味が強く、わかりやすい魅力がある。"
+  },
+  GRFDB: {
+    title: "ライト本音型",
+    desc: "自然体で関わりやすく、本音も比較的出しやすいタイプ。明るいがベタベタしすぎず、心地よい距離感を持つ。"
+  },
+  GRFCN: {
+    title: "親友量産型",
+    desc: "柔らかく自然に人とつながり、深い関係も築きやすいタイプ。話しやすさと安心感のバランスがかなり高い。"
+  },
+  GRFCB: {
+    title: "軽快ナチュラル型",
+    desc: "フットワークが軽く、空気にも自然に馴染めるタイプ。一緒にいて疲れにくく、広く好かれやすい。"
+  },
 
-  { text: "相手によって話し方や雰囲気を変えることがある", key: "M" },
-  { text: "その場に合う自分を自然に作っていることがある", key: "M" },
-  { text: "本音より、その場が丸く収まる方を優先することがある", key: "M" },
-  { text: "“今ここで何を出すべきか”を無意識に考えている", key: "M" },
-  { text: "人と関わる時、自分を少し調整するのは普通だと思う", key: "M" },
-
-  { text: "会話が止まりそうになると、自分から動くことが多い", key: "L" },
-  { text: "話の流れを整えたり、前に進める役になりやすい", key: "L" },
-  { text: "気づくと自分が場を回していることがある", key: "L" },
-  { text: "会話や人間関係では、受け身すぎるより動いた方が楽だ", key: "L" },
-  { text: "「このままだと微妙だな」と思うと、自分で流れを変えたくなる", key: "L" },
-
-  { text: "会話では、自分から引っ張るより相手に合わせる方が自然だ", key: "F" },
-  { text: "話の流れや空気に乗る方が、無理なく関われる", key: "F" },
-  { text: "人と話す時は、自分が前に出るより“噛み合うこと”を大事にする", key: "F" },
-  { text: "会話では、相手のテンポに合わせることが多い", key: "F" },
-  { text: "無理に主導するより、その場に合う動きをする方が楽だ", key: "F" },
-
-  { text: "相手の言葉や態度を、後から思い返すことが多い", key: "D" },
-  { text: "人間関係のダメージは、しばらく残る方だ", key: "D" },
-  { text: "“あの時こうすればよかった”と引きずることがある", key: "D" },
-  { text: "嫌な空気や違和感を、頭の中で何度も再生しがちだ", key: "D" },
-  { text: "一度刺さったことは、簡単には消えにくい", key: "D" },
-
-  { text: "嫌なことがあっても、比較的切り替えは早い方だ", key: "C" },
-  { text: "人間関係のモヤモヤは、ある程度で区切りをつけられる", key: "C" },
-  { text: "終わったことを、いつまでも考え続けるのは少ない", key: "C" },
-  { text: "気持ちを整理したら、前に進む方が自然だ", key: "C" },
-  { text: "トラブルがあっても、長く引きずらない方だ", key: "C" },
-
-  { text: "仲良くなった相手とは、かなり近い距離感になりやすい", key: "N" },
-  { text: "表面的な関係より、深く通じる関係を求める", key: "N" },
-  { text: "信頼した相手には、かなり心を開く方だ", key: "N" },
-  { text: "人とのつながりに“深さ”があると安心する", key: "N" },
-  { text: "浅く広くより、狭く深くの方がしっくり来る", key: "N" },
-
-  { text: "人と仲良くなっても、自分の領域はある程度保ちたい", key: "B" },
-  { text: "必要以上に踏み込まれると、少し距離を取りたくなる", key: "B" },
-  { text: "深くなりすぎる関係は、時々しんどく感じる", key: "B" },
-  { text: "親しくても、越えられたくない線はある", key: "B" },
-  { text: "人間関係では“近すぎない心地よさ”も大事だと思う", key: "B" }
-];
-
-const choices = [
-  { label: "とても当てはまる", value: 5 },
-  { label: "やや当てはまる", value: 4 },
-  { label: "どちらともいえない", value: 3 },
-  { label: "あまり当てはまらない", value: 2 },
-  { label: "全く当てはまらない", value: 1 }
-];
-
-const scores = {
-  S: 0, G: 0, R: 0, M: 0, L: 0,
-  F: 0, D: 0, C: 0, N: 0, B: 0
+  GMLDN: {
+    title: "社交プロデューサー型",
+    desc: "人との距離を詰めるのが上手く、場を整えながら前に進めるタイプ。対人の器用さがかなり高い。"
+  },
+  GMLDB: {
+    title: "スマート支配型",
+    desc: "空気を読みながら主導権を握り、必要な距離感も保てるタイプ。かなり“できる人”に見られやすい。"
+  },
+  GMLCN: {
+    title: "万能司会型",
+    desc: "明るさ、調整力、主導力、深さを高いレベルで持つタイプ。対人の完成度がかなり高い。"
+  },
+  GMLCB: {
+    title: "完成度高すぎ型",
+    desc: "社交性も安定感も高く、対人で崩れにくいタイプ。欠点が見えにくいぶん、本音が読まれにくいこともある。"
+  },
+  GMFDN: {
+    title: "愛され擬態型",
+    desc: "柔らかく親しみやすい空気をまといながら、人と深くなる力も持つタイプ。優しさゆえに疲れを抱えやすい。"
+  },
+  GMFDB: {
+    title: "空気職人型",
+    desc: "その場に自然に馴染み、人との距離感も上手く保てるタイプ。対人事故が少なく、かなり扱いやすい。"
+  },
+  GMFCN: {
+    title: "ぬくもり適応型",
+    desc: "優しさと柔らかさで人を安心させながら、深い関係も築けるタイプ。話しやすく、好かれやすい。"
+  },
+  GMFCB: {
+    title: "平和維持型",
+    desc: "空気を壊さず、人と自然に関わりながら、自分の境界線も守れるタイプ。対人の安定感が非常に高い。"
+  }
 };
-
-let current = 0;
-
-const startScreen = document.getElementById("start-screen");
-const quizScreen = document.getElementById("quiz-screen");
-const resultScreen = document.getElementById("result-screen");
-
-const startBtn = document.getElementById("start-btn");
-const restartBtn = document.getElementById("restart-btn");
-
-const questionText = document.getElementById("question-text");
-const choicesWrap = document.getElementById("choices");
-const progressBar = document.getElementById("progress-bar");
-const progressText = document.getElementById("progress-text");
-
-const typeCodeEl = document.getElementById("type-code");
-const typeTitleEl = document.getElementById("type-title");
-const typeDescEl = document.getElementById("type-desc");
-const coreFunctionsEl = document.getElementById("core-functions");
-const gaugesEl = document.getElementById("gauges");
-
-startBtn.addEventListener("click", () => {
-  startScreen.classList.add("hidden");
-  quizScreen.classList.remove("hidden");
-  showQuestion();
-});
-
-restartBtn.addEventListener("click", () => {
-  location.reload();
-});
-
-function showQuestion() {
-  const q = questions[current];
-  questionText.textContent = q.text;
-  progressText.textContent = `${current + 1} / ${questions.length}`;
-  progressBar.style.width = `${((current + 1) / questions.length) * 100}%`;
-
-  choicesWrap.innerHTML = "";
-  choices.forEach(choice => {
-    const btn = document.createElement("button");
-    btn.textContent = choice.label;
-    btn.addEventListener("click", () => {
-      scores[q.key] += choice.value;
-      current++;
-      if (current < questions.length) {
-        showQuestion();
-      } else {
-        showResult();
-      }
-    });
-    choicesWrap.appendChild(btn);
-  });
-}
-
-function applyCoreAdjustment(raw) {
-  const adjusted = { ...raw };
-
-  // コア補正（軽め）
-  adjusted.F += raw.S * 0.15;
-  adjusted.L += raw.G * 0.15;
-
-  adjusted.N += raw.R * 0.15;
-  adjusted.B += raw.M * 0.15;
-
-  adjusted.F += raw.D * 0.1;
-  adjusted.N += raw.D * 0.1;
-
-  adjusted.L += raw.C * 0.1;
-  adjusted.B += raw.C * 0.1;
-
-  return adjusted;
-}
-
-function comparePair(a, b, keyA, keyB) {
-  return a >= b ? keyA : keyB;
-}
-
-function percent(a, b) {
-  return Math.round((a / (a + b)) * 100);
-}
-
-function showResult() {
-  quizScreen.classList.add("hidden");
-  resultScreen.classList.remove("hidden");
-
-  const adjusted = applyCoreAdjustment(scores);
-
-  const type =
-    comparePair(adjusted.S, adjusted.G, "S", "G") +
-    comparePair(adjusted.R, adjusted.M, "R", "M") +
-    comparePair(adjusted.L, adjusted.F, "L", "F") +
-    comparePair(adjusted.D, adjusted.C, "D", "C") +
-    comparePair(adjusted.N, adjusted.B, "N", "B");
-
-  const typeMap = {
-    SRFDN: {
-      title: "静かな共鳴型",
-      desc: "慎重に人へ入り、空気に共鳴しながら、本音で深くつながるタイプ。静かだが中身はかなり濃い。"
-    },
-    GRLCN: {
-      title: "陽キャ参謀型",
-      desc: "自然に人へ入り、流れを作りながら深い関係も築ける万能型。"
-    }
-  };
-
-  const info = typeMap[type] || {
-    title: "未命名タイプ",
-    desc: "このタイプの詳細説明はこれから追加できます。"
-  };
-
-  const coreArray = Object.entries(adjusted)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 2)
-    .map(([k]) => k);
-
-  typeCodeEl.textContent = type;
-  typeTitleEl.textContent = info.title;
-  typeDescEl.textContent = info.desc;
-  coreFunctionsEl.textContent = `主軸：${coreArray[0]} / 補助：${coreArray[1]}`;
-
-  const pairs = [
-    ["S", "G"],
-    ["R", "M"],
-    ["L", "F"],
-    ["D", "C"],
-    ["N", "B"]
-  ];
-
-  gaugesEl.innerHTML = "";
-
-  pairs.forEach(([a, b]) => {
-    const p = percent(adjusted[a], adjusted[b]);
-    const winner = adjusted[a] >= adjusted[b] ? a : b;
-    const loser = winner === a ? b : a;
-    const winnerPercent = winner === a ? p : 100 - p;
-
-    const box = document.createElement("div");
-    box.className = "gauge-box";
-    box.innerHTML = `
-      <div class="gauge-label">
-        <span>${winner}</span>
-        <span>${winnerPercent}%</span>
-        <span>${loser}</span>
-      </div>
-      <div class="gauge-track">
-        <div class="gauge-fill" style="width:${winnerPercent}%"></div>
-      </div>
-    `;
-    gaugesEl.appendChild(box);
-  });
-}

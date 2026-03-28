@@ -130,3 +130,45 @@ button:hover {
   text-align: left;
   line-height: 1.7;
 }
+.type-card {
+  background: #0f172a;
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 16px;
+  cursor: pointer;
+}
+
+.type-card h2 {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+.type-card p {
+  text-align: left;
+  line-height: 1.7;
+}
+
+.type-detail {
+  background: #111827;
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 10px;
+}
+
+.type-detail h3 {
+  text-align: left;
+  margin-top: 10px;
+}
+
+.type-detail p {
+  text-align: left;
+}
+
+.type-detail ul {
+  padding-left: 20px;
+}
+
+.type-detail li {
+  margin: 8px 0;
+  line-height: 1.6;
+}

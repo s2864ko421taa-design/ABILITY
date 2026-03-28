@@ -1,0 +1,116 @@
+body {
+  font-family: "Hiragino Sans", "Yu Gothic", sans-serif;
+  background: #0f172a;
+  color: #f8fafc;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.card {
+  background: #1e293b;
+  border-radius: 20px;
+  padding: 24px;
+  margin-top: 30px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.hidden {
+  display: none;
+}
+
+h1, h2, h3 {
+  text-align: center;
+}
+
+p {
+  line-height: 1.8;
+  text-align: center;
+}
+
+button {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px;
+  border: none;
+  border-radius: 14px;
+  background: #22c55e;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.choices button {
+  margin-bottom: 12px;
+  background: #334155;
+}
+
+.progress-wrap {
+  width: 100%;
+  height: 14px;
+  background: #334155;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #22c55e;
+  transition: width 0.3s ease;
+}
+
+.gauge-box {
+  margin: 18px 0;
+}
+
+.gauge-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 14px;
+  gap: 8px;
+}
+
+.gauge-track {
+  width: 100%;
+  height: 14px;
+  background: #334155;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.gauge-fill {
+  height: 100%;
+  background: #38bdf8;
+}
+
+.core-box,
+.detail-box {
+  background: #0f172a;
+  padding: 16px;
+  border-radius: 16px;
+  margin: 20px 0;
+}
+
+.detail-box ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.detail-box li {
+  margin: 8px 0;
+  line-height: 1.6;
+}

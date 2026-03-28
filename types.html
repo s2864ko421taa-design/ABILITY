@@ -9,31 +9,110 @@
 <body>
   <div class="box">
     <h1>キャラ説明欄</h1>
-    <p>対人メンタルタイプの一覧ページです。</p>
+    <p>対人メンタルタイプの4タイプ紹介ページです。</p>
 
-    <div class="type-card">
+    <div class="type-card" onclick="toggleType('srfdn')">
       <h2>SRFDN｜観察共鳴型</h2>
       <p>慎重に人を見ながらも、相手の空気や感情にかなり敏感で、深く共鳴しやすいタイプ。</p>
     </div>
+    <div class="type-detail hidden" id="srfdn">
+      <h3>特徴</h3>
+      <p>静かに見えて、内側ではかなり多くのことを感じ取っているタイプ。人との距離を慎重に見極めながら、信頼した相手とは深くつながる。</p>
 
-    <div class="type-card">
+      <h3>強み</h3>
+      <ul>
+        <li>空気の違和感に強い</li>
+        <li>深い信頼関係を築きやすい</li>
+        <li>共感力が高い</li>
+      </ul>
+
+      <h3>弱み</h3>
+      <ul>
+        <li>引きずりやすい</li>
+        <li>察してほしい期待が強くなりやすい</li>
+        <li>本音を溜め込みやすい</li>
+      </ul>
+    </div>
+
+    <div class="type-card" onclick="toggleType('grlcn')">
       <h2>GRLCN｜陽キャ参謀型</h2>
       <p>自然な社交性と流れを作る力を持ちつつ、深い関係も築ける万能型。</p>
     </div>
+    <div class="type-detail hidden" id="grlcn">
+      <h3>特徴</h3>
+      <p>明るく人と関われるだけでなく、場を整えたり空気を回したりするのが上手いタイプ。広く関われるが、中身も薄くない。</p>
 
-    <div class="type-card">
+      <h3>強み</h3>
+      <ul>
+        <li>社交性と主導力が高い</li>
+        <li>場を回しながら深い関係も作れる</li>
+        <li>頼られやすい</li>
+      </ul>
+
+      <h3>弱み</h3>
+      <ul>
+        <li>気を回しすぎて疲れやすい</li>
+        <li>大丈夫そうに見られすぎる</li>
+        <li>本音が埋もれることがある</li>
+      </ul>
+    </div>
+
+    <div class="type-card" onclick="toggleType('smlcb')">
       <h2>SMLCB｜仮面の管理者型</h2>
       <p>その場に最適な自分を保ちながら、冷静に全体を整えるタイプ。</p>
     </div>
+    <div class="type-detail hidden" id="smlcb">
+      <h3>特徴</h3>
+      <p>対人でかなり制御が効いており、その場に合わせた立ち回りが得意。安定感がある反面、本音が見えにくいこともある。</p>
 
-    <div class="type-card">
+      <h3>強み</h3>
+      <ul>
+        <li>非常に崩れにくい</li>
+        <li>対人の調整力が高い</li>
+        <li>組織や集団で安定感がある</li>
+      </ul>
+
+      <h3>弱み</h3>
+      <ul>
+        <li>本音が見えにくい</li>
+        <li>感情を後回しにしやすい</li>
+        <li>素の自分が曖昧になりやすい</li>
+      </ul>
+    </div>
+
+    <div class="type-card" onclick="toggleType('gmfcb')">
       <h2>GMFCB｜平和維持型</h2>
       <p>空気を壊さず、人と自然に関わりながら、自分の境界線も守れる安定型。</p>
+    </div>
+    <div class="type-detail hidden" id="gmfcb">
+      <h3>特徴</h3>
+      <p>柔らかく人と関われる一方で、無理に自分を削らないバランス感覚を持つタイプ。優しさと安定感が武器。</p>
+
+      <h3>強み</h3>
+      <ul>
+        <li>人を安心させやすい</li>
+        <li>対人トラブルが少ない</li>
+        <li>自分の線を守れる</li>
+      </ul>
+
+      <h3>弱み</h3>
+      <ul>
+        <li>「いい人」で止まりやすい</li>
+        <li>本気度が伝わりにくい</li>
+        <li>我慢が静かに溜まりやすい</li>
+      </ul>
     </div>
 
     <a href="index.html">
       <button>診断ページに戻る</button>
     </a>
   </div>
+
+  <script>
+    function toggleType(id) {
+      const el = document.getElementById(id);
+      el.classList.toggle("hidden");
+    }
+  </script>
 </body>
 </html>

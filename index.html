@@ -1,144 +1,73 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>診断テスト</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background: #0f172a;
-      color: white;
-      margin: 0;
-      padding: 20px;
-    }
-
-    .box {
-      background: #1e293b;
-      padding: 20px;
-      border-radius: 16px;
-      max-width: 600px;
-      margin: 40px auto;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      margin-top: 12px;
-      border: none;
-      border-radius: 12px;
-      background: #22c55e;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    .choice {
-      background: #334155;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>対人メンタルタイプ診断</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="box" id="start-screen">
-    <h1>診断テスト</h1>
-    <p>まずは動作確認用の超ミニ版です。</p>
-    <button id="start-btn">診断スタート</button>
+  <div class="container">
+    <div id="start-screen" class="card">
+      <h1>対人メンタルタイプ診断</h1>
+      <p>
+        あなたが人と関わる時の<br>
+        「入り方」「本音」「主導性」「傷の残り方」「距離感」を分析します。
+      </p>
+      <button id="start-btn">診断スタート</button>
+    </div>
+
+    <div id="quiz-screen" class="card hidden">
+      <div class="progress-wrap">
+        <div id="progress-bar"></div>
+      </div>
+      <p id="progress-text"></p>
+      <h2 id="question-text"></h2>
+      <div id="choices" class="choices"></div>
+    </div>
+
+    <div id="result-screen" class="card hidden">
+      <h1>診断結果</h1>
+      <h2 id="type-code"></h2>
+      <h3 id="type-title"></h3>
+      <p id="type-desc"></p>
+
+      <div class="detail-box">
+        <h3>強み</h3>
+        <ul id="type-strengths"></ul>
+      </div>
+
+      <div class="detail-box">
+        <h3>弱み</h3>
+        <ul id="type-weaknesses"></ul>
+      </div>
+
+      <div class="detail-box">
+        <h3>恋愛傾向</h3>
+        <p id="type-love"></p>
+      </div>
+
+      <div class="detail-box">
+        <h3>疲れた時</h3>
+        <p id="type-stress"></p>
+      </div>
+
+      <div class="detail-box">
+        <h3>相性のいいタイプ</h3>
+        <p id="type-match"></p>
+      </div>
+
+      <div class="core-box">
+        <h3>コア機能</h3>
+        <p id="core-functions"></p>
+      </div>
+
+      <div id="gauges"></div>
+
+      <button id="restart-btn">もう一度診断する</button>
+    </div>
   </div>
 
-  <div class="box hidden" id="quiz-screen">
-    <h2 id="question">ここに質問が出ます</h2>
-    <div id="choices"></div>
-  </div>
-
-  <div class="box hidden" id="result-screen">
-    <h1>結果</h1>
-    <p id="result-text"></p>
-    <button onclick="location.reload()">もう一度</button>
-  </div>
-
-  <script>
-    const questions = [
-      {
-        text: "初対面では少し慎重になる",
-        type: "S"
-      },
-      {
-        text: "初対面でもすぐ話せる方だ",
-        type: "G"
-      },
-      {
-        text: "感情は表に出やすい",
-        type: "R"
-      }
-    ];
-
-    let current = 0;
-    let score = { S: 0, G: 0, R: 0 };
-
-    const startScreen = document.getElementById("start-screen");
-    const quizScreen = document.getElementById("quiz-screen");
-    const resultScreen = document.getElementById("result-screen");
-
-    const startBtn = document.getElementById("start-btn");
-    const questionEl = document.getElementById("question");
-    const choicesEl = document.getElementById("choices");
-    const resultText = document.getElementById("result-text");
-
-    startBtn.addEventListener("click", () => {
-      startScreen.classList.add("hidden");
-      quizScreen.classList.remove("hidden");
-      showQuestion();
-    });
-
-    function showQuestion() {
-      const q = questions[current];
-      questionEl.textContent = q.text;
-      choicesEl.innerHTML = "";
-
-      const answers = [
-        { label: "はい", value: 1 },
-        { label: "いいえ", value: 0 }
-      ];
-
-      answers.forEach(answer => {
-        const btn = document.createElement("button");
-        btn.textContent = answer.label;
-        btn.className = "choice";
-        btn.addEventListener("click", () => {
-          score[q.type] += answer.value;
-          current++;
-
-          if (current < questions.length) {
-            showQuestion();
-          } else {
-            showResult();
-          }
-        });
-
-        choicesEl.appendChild(btn);
-      });
-    }
-
-    function showResult() {
-      quizScreen.classList.add("hidden");
-      resultScreen.classList.remove("hidden");
-
-      let bestType = "S";
-      if (score.G > score.S && score.G > score.R) bestType = "G";
-      if (score.R > score.S && score.R > score.G) bestType = "R";
-
-      if (bestType === "S") {
-        resultText.textContent = "あなたは慎重タイプ";
-      } else if (bestType === "G") {
-        resultText.textContent = "あなたは社交タイプ";
-      } else {
-        resultText.textContent = "あなたは感情表現タイプ";
-      }
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

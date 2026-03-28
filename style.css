@@ -114,3 +114,19 @@ button:hover {
   margin: 8px 0;
   line-height: 1.6;
 }
+.type-card {
+  background: #0f172a;
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.type-card h2 {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+.type-card p {
+  text-align: left;
+  line-height: 1.7;
+}

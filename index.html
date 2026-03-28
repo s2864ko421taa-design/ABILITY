@@ -3,13 +3,142 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>テスト</title>
+  <title>診断テスト</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #0f172a;
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .box {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 16px;
+      max-width: 600px;
+      margin: 40px auto;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 12px;
+      border: none;
+      border-radius: 12px;
+      background: #22c55e;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .choice {
+      background: #334155;
+    }
+  </style>
 </head>
 <body>
-  <h1>テストページ</h1>
-  <button onclick="document.getElementById('msg').textContent='動いた！';">
-    押して
-  </button>
-  <p id="msg">まだ</p>
+  <div class="box" id="start-screen">
+    <h1>診断テスト</h1>
+    <p>まずは動作確認用の超ミニ版です。</p>
+    <button id="start-btn">診断スタート</button>
+  </div>
+
+  <div class="box hidden" id="quiz-screen">
+    <h2 id="question">ここに質問が出ます</h2>
+    <div id="choices"></div>
+  </div>
+
+  <div class="box hidden" id="result-screen">
+    <h1>結果</h1>
+    <p id="result-text"></p>
+    <button onclick="location.reload()">もう一度</button>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        text: "初対面では少し慎重になる",
+        type: "S"
+      },
+      {
+        text: "初対面でもすぐ話せる方だ",
+        type: "G"
+      },
+      {
+        text: "感情は表に出やすい",
+        type: "R"
+      }
+    ];
+
+    let current = 0;
+    let score = { S: 0, G: 0, R: 0 };
+
+    const startScreen = document.getElementById("start-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const resultScreen = document.getElementById("result-screen");
+
+    const startBtn = document.getElementById("start-btn");
+    const questionEl = document.getElementById("question");
+    const choicesEl = document.getElementById("choices");
+    const resultText = document.getElementById("result-text");
+
+    startBtn.addEventListener("click", () => {
+      startScreen.classList.add("hidden");
+      quizScreen.classList.remove("hidden");
+      showQuestion();
+    });
+
+    function showQuestion() {
+      const q = questions[current];
+      questionEl.textContent = q.text;
+      choicesEl.innerHTML = "";
+
+      const answers = [
+        { label: "はい", value: 1 },
+        { label: "いいえ", value: 0 }
+      ];
+
+      answers.forEach(answer => {
+        const btn = document.createElement("button");
+        btn.textContent = answer.label;
+        btn.className = "choice";
+        btn.addEventListener("click", () => {
+          score[q.type] += answer.value;
+          current++;
+
+          if (current < questions.length) {
+            showQuestion();
+          } else {
+            showResult();
+          }
+        });
+
+        choicesEl.appendChild(btn);
+      });
+    }
+
+    function showResult() {
+      quizScreen.classList.add("hidden");
+      resultScreen.classList.remove("hidden");
+
+      let bestType = "S";
+      if (score.G > score.S && score.G > score.R) bestType = "G";
+      if (score.R > score.S && score.R > score.G) bestType = "R";
+
+      if (bestType === "S") {
+        resultText.textContent = "あなたは慎重タイプ";
+      } else if (bestType === "G") {
+        resultText.textContent = "あなたは社交タイプ";
+      } else {
+        resultText.textContent = "あなたは感情表現タイプ";
+      }
+    }
+  </script>
 </body>
 </html>
